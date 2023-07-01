@@ -9,6 +9,8 @@ import Question from "./Question";
 const initialState = {
   questions: [],
   status: "loading",
+  index: 0,
+  answer: null,
 };
 
 function reducer(state, action) {
@@ -29,13 +31,21 @@ function reducer(state, action) {
         ...state,
         status: "active",
       };
+    case "newAnswer":
+      return {
+        ...state,
+        answer: action.payload,
+      };
     default:
       throw new Error("Action unknow");
   }
 }
 
 export default function App() {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   const numQuestions = questions.length;
 
@@ -44,7 +54,7 @@ export default function App() {
       .then((res) => res.json())
       .then((data) => dispatch({ type: "dataReceived", payload: data }))
       .catch((err) => dispatch({ type: "dataFailed" }));
-  },[]);
+  }, []);
   return (
     <div className="app">
       <Header />
@@ -52,12 +62,15 @@ export default function App() {
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
         {status === "ready" && (
-          <StartScreen
-            numQuestions={numQuestions}
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+        )}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
             dispatch={dispatch}
+            answer={answer}
           />
         )}
-        {status === "active" && <Question />}
       </Main>
     </div>
   );
