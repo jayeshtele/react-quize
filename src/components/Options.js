@@ -9,7 +9,11 @@ export default function Options({ question, dispatch, answer }) {
         {question.options.map((option, index) => (
           <button
             className={`btn btn-option ${index === answer ? "answer" : ""} ${
-              index === question.correctOption ? "correct" : "wrong"
+              hasAnswer
+                ? index === question.correctOption
+                  ? "correct"
+                  : "wrong"
+                : ""
             } `}
             key={option}
             disabled={hasAnswer}
