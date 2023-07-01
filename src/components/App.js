@@ -64,7 +64,7 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Questions />}
+        {status === "active" && <Questions question={questions[index]} dispatch={dispatch} answer={answer} />}
       </Main>
     </div>
   );
