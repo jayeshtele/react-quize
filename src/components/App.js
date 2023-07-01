@@ -4,7 +4,7 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
-import Question from "./Question";
+import Questions from "./Questions";
 
 const initialState = {
   questions: [],
@@ -64,13 +64,7 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
-        )}
+        {status === "active" && <Questions />}
       </Main>
     </div>
   );
